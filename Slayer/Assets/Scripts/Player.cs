@@ -168,9 +168,9 @@ public class Player : MonoBehaviour {
 		}
 	}
 	public void Quit(){
-		SceneManager.LoadScene(0);
+		Application.Quit();
 	}
 	public void Restart(){
-		Application.Quit();
+		SceneManager.LoadScene(0);
 	}
 }
