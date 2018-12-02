@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour {
+	int hp;
+	public GameObject deathMessage;
+	public GameObject hpobject;
 	public Sprite defaultimg;
 	Rigidbody2D rb; 
 	public GameObject SwordDisplay;
@@ -14,11 +18,13 @@ public class Player : MonoBehaviour {
 	public GameObject Panel;
 	// Use this for initialization
 	void Start () {
+		hide(deathMessage);
+		hp=100;
 		currentSword = 0;
 		rb = gameObject.GetComponent<Rigidbody2D>();
 		swords = new Sword[3] {new Sword(10,"Jeff",3,2,new string[3]{"+1","+3","+6"},defaultimg),new Sword(10,"Jeff",3,2,new string[3],defaultimg),new Sword(10,"Jeff",3,2,new string[3],defaultimg)};
 		Panel.GetComponent<Image>().enabled = false;
-		hide();
+		hide(Panel);
 
 		SwordDisplay.transform.GetChild(0).GetChild(0).GetComponent<Image>().enabled = false;
 		SwordDisplay.transform.GetChild(1).GetChild(0).GetComponent<Image>().enabled = false;
@@ -32,6 +38,8 @@ public class Player : MonoBehaviour {
 		UpdateGUI();
 	}
 	void UpdateGUI(){
+		hpobject.GetComponent<TMP_Text>().text = "HP:" + hp.ToString();
+
 		if(currentSword==0){
 			SwordDisplay.transform.GetChild(0).GetChild(0).GetComponent<Image>().enabled = true;
 			SwordDisplay.transform.GetChild(1).GetChild(0).GetComponent<Image>().enabled = false;
@@ -54,40 +62,6 @@ public class Player : MonoBehaviour {
 	}
 
 	void Attack(){
-		/* 
-		int hor = 0;
-		int ver = 0;
-		if(Input.GetKey(KeyCode.LeftArrow)){
-			hor-=1;
-		}
-		if(Input.GetKey(KeyCode.RightArrow)){
-			hor+=1;
-		}
-		if(Input.GetKey(KeyCode.UpArrow)){
-			ver+=1;
-		}
-		if(Input.GetKey(KeyCode.DownArrow)){
-			ver-=1;
-		}
-		..int angle = 1;
-		if(hor > 0){
-			angle *=-1;
-		}
-		angle *= Mathf.Abs(ver-2)*45;
-		if(hor == 0){
-			if(ver == 0){
-				angle = 0;
-			} if(ver == -1){
-				angle = 180;
-			} if (ver == 1){
-				angle = 0;
-			}
-		}
-		*/
-		
-		//transform.GetChild(1).Rotate= Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-
 			Vector3 mousePos = Input.mousePosition;
 			mousePos.z = 5.23f;
 
@@ -112,24 +86,30 @@ public class Player : MonoBehaviour {
 		
 		rb.AddForce(new Vector2(Hor,Ver));}
 	void OnCollisionEnter2D(Collision2D Other){
+		if(Other.transform.tag=="Enemy"){
+			hp-=5;
+			if(hp <= 0 ){
+				Time.timeScale = 0;
+				show(deathMessage);
+			}
+		}
 		if(Other.gameObject.tag == "Sword"&&Other.gameObject.tag!="Enemy"){
 			Time.timeScale=0;
 			Panel.GetComponent<Image>().enabled = true;
-			show();
-			
+			show(Panel);
 			newSword = Other.gameObject.GetComponent<SwordScript>().sword;
-	
-
 			newSwordObject = Other.gameObject;
 		}
 	}
-	
+
+
+
 	public void one(){
 		SwordSwap(newSwordObject.GetComponent<SwordScript>(), swords[0]);
 		swords[0] = newSword;
 		Time.timeScale = 1;
 		Panel.GetComponent<Image>().enabled = false;
-		hide();
+		hide(Panel);
 		rb.velocity = new Vector2(0,0);
 	}
 
@@ -139,7 +119,7 @@ public class Player : MonoBehaviour {
 		swords[1] = newSword;
 		Time.timeScale = 1;
 		Panel.GetComponent<Image>().enabled = false;
-		hide();
+		hide(Panel);
 		rb.velocity = new Vector2(0,0);
 	}
 
@@ -148,7 +128,7 @@ public class Player : MonoBehaviour {
 		swords[2] = newSword;
 		Time.timeScale = 1;
 		Panel.GetComponent<Image>().enabled = false;
-		hide();
+		hide(Panel);
 		rb.velocity = new Vector2(0,0);
 	}
 	public void SwordSwap(SwordScript a, Sword b){
@@ -159,32 +139,38 @@ public class Player : MonoBehaviour {
 		a.knockback = b.knockback;
 		a.affixes = b.affixes;
 	}
-	void hide(){
-		foreach (Image panel in Panel.transform.GetComponentsInChildren<Image>())
+	void hide(GameObject element){
+		foreach (Image panel in element.transform.GetComponentsInChildren<Image>())
 		{
 			panel.enabled = false;
 		}
-		foreach (Image panel in Panel.transform.GetComponentsInChildren<Image>())
+		foreach (Image panel in element.transform.GetComponentsInChildren<Image>())
 		{
 			panel.enabled = false;
 		}
-		foreach (TMP_Text panel in Panel.transform.GetComponentsInChildren<TMP_Text>())
+		foreach (TMP_Text panel in element.transform.GetComponentsInChildren<TMP_Text>())
 		{
 			panel.enabled = false;
 		}
 	}
-	void show(){
-		foreach (Image panel in Panel.transform.GetComponentsInChildren<Image>())
+	void show(GameObject element){
+		foreach (Image panel in element.transform.GetComponentsInChildren<Image>())
 		{
 			panel.enabled = true;
 		}
-		foreach (Image panel in Panel.transform.GetComponentsInChildren<Image>())
+		foreach (Image panel in element.transform.GetComponentsInChildren<Image>())
 		{
 			panel.enabled = true;
 		}
-		foreach (TMP_Text panel in Panel.transform.GetComponentsInChildren<TMP_Text>())
+		foreach (TMP_Text panel in element.transform.GetComponentsInChildren<TMP_Text>())
 		{
 			panel.enabled = true;
 		}
+	}
+	public void Quit(){
+		SceneManager.LoadScene(0);
+	}
+	public void Restart(){
+		Application.Quit();
 	}
 }

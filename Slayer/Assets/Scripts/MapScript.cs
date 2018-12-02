@@ -17,7 +17,8 @@ public class MapScript : MonoBehaviour {
 					goto Wrong;
 				}
 			}
-			Instantiate(Rooms[rand],new Vector3(transform.position.x,transform.position.y+i*18,transform.position.z),Quaternion.identity);
+			var room = Instantiate(Rooms[rand],new Vector3(transform.position.x,transform.position.y+i*18,transform.position.z),Quaternion.identity);
+			room.transform.parent = transform;
 			usedNums[i] = rand;
 		}
 	}

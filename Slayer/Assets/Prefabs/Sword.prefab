@@ -81,6 +81,8 @@ MonoBehaviour:
   damage: 0
   type: 0
   kills: 0
+  knockback: 0
+  affixes: []
   image: {fileID: 0}
 --- !u!212 &212164005237178066
 SpriteRenderer:

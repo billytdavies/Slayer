@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour {
 		Player = GameObject.FindGameObjectWithTag("Player");
 		StartCoroutine(Launch());
 		rb = gameObject.GetComponent<Rigidbody2D>();
+		gameObject.tag = "Enemy";
 	}
 	IEnumerator Launch(){
 		yield return new WaitForSeconds(Random.Range(0,2));
