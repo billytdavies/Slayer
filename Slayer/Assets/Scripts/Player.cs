@@ -6,7 +6,6 @@ using TMPro;
 public class Player : MonoBehaviour {
 	public Sprite defaultimg;
 	Rigidbody2D rb; 
-	Animator animator;
 	public GameObject SwordDisplay;
 	public Sword[] swords;
 	public Sword newSword;
@@ -15,10 +14,9 @@ public class Player : MonoBehaviour {
 	public GameObject Panel;
 	// Use this for initialization
 	void Start () {
-		animator = gameObject.transform.GetChild(1).GetComponent<Animator>();
 		currentSword = 0;
 		rb = gameObject.GetComponent<Rigidbody2D>();
-		swords = new Sword[3] {new Sword(10,"Jeff",3,defaultimg),new Sword(10,"Jeff",3,defaultimg),new Sword(10,"Jeff",3,defaultimg)};
+		swords = new Sword[3] {new Sword(10,"Jeff",3,2,new string[3]{"+1","+3","+6"},defaultimg),new Sword(10,"Jeff",3,2,new string[3],defaultimg),new Sword(10,"Jeff",3,2,new string[3],defaultimg)};
 		Panel.GetComponent<Image>().enabled = false;
 		hide();
 
@@ -134,6 +132,8 @@ public class Player : MonoBehaviour {
 		hide();
 		rb.velocity = new Vector2(0,0);
 	}
+
+
 	public void two(){
 		SwordSwap(newSwordObject.GetComponent<SwordScript>(), swords[1]);
 		swords[1] = newSword;
@@ -142,6 +142,7 @@ public class Player : MonoBehaviour {
 		hide();
 		rb.velocity = new Vector2(0,0);
 	}
+
 	public void three(){
 		SwordSwap(newSwordObject.GetComponent<SwordScript>(), swords[2]);
 		swords[2] = newSword;
@@ -155,6 +156,8 @@ public class Player : MonoBehaviour {
 		a.type = b.type;
 		a.kills = b.kills;
 		a.image = b.image;
+		a.knockback = b.knockback;
+		a.affixes = b.affixes;
 	}
 	void hide(){
 		foreach (Image panel in Panel.transform.GetComponentsInChildren<Image>())

@@ -20,12 +20,11 @@ public class Enemy : MonoBehaviour {
 	}
 	void OnTriggerEnter2D(Collider2D Other){
 		if(Other.transform.tag == "Sword"){
-			rb.AddForce((gameObject.transform.position-Player.transform.position).normalized*25);
+			rb.AddForce((gameObject.transform.position-Player.transform.position).normalized*(20* Player.GetComponent<Player>().swords[Player.GetComponent<Player>().currentSword].knockback));
 			health -= Player.GetComponent<Player>().swords[Player.GetComponent<Player>().currentSword].damage;
 		}
-	}
-	void Update(){
 		if(health<=0){
+			Player.GetComponent<Player>().swords[Player.GetComponent<Player>().currentSword].kills +=1;
 			var ptks = Instantiate(Particles,new Vector3(transform.position.x,transform.position.y,transform.position.z+8),Quaternion.identity);
 			Destroy(ptks,4);
 			Destroy(gameObject);

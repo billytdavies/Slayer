@@ -12,6 +12,8 @@ public class SwordSpot : MonoBehaviour {
 		srdobj.GetComponent<SwordScript>().kills = Random.Range(0,3);
 		srdobj.GetComponent<SwordScript>().type = names[Random.Range(0,names.Length)];
 		srdobj.GetComponent<SwordScript>().damage = Random.Range(5,25);
+		srdobj.GetComponent<SwordScript>().knockback = Random.Range(0,10);
+		srdobj.GetComponent<SwordScript>().affixes = new string[3];
 		srdobj.GetComponent<SwordScript>().image = pics[Random.Range(0,pics.Length)];
 	}
 }
