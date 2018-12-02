@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour {
 	int hp;
+	public int Score;
 	public GameObject deathMessage;
 	public GameObject hpobject;
 	public Sprite defaultimg;
@@ -172,5 +173,6 @@ public class Player : MonoBehaviour {
 	}
 	public void Restart(){
 		SceneManager.LoadScene(0);
+		Time.timeScale = 1;
 	}
 }
