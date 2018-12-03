@@ -9,7 +9,6 @@ public class Player : MonoBehaviour {
 	public int Score;
 	public GameObject deathMessage;
 	public GameObject hpobject;
-	public Sprite defaultimg;
 	Rigidbody2D rb; 
 	public GameObject SwordDisplay;
 	public Sword[] swords;
@@ -34,7 +33,7 @@ public class Player : MonoBehaviour {
 		hp=100;
 		currentSword = 0;
 		rb = gameObject.GetComponent<Rigidbody2D>();
-		swords = new Sword[3] {new Sword(1000,"Jeff",3,2,new string[3]{"+1","+3","+6"},defaultimg),new Sword(10,"Jeff",3,2,new string[3],defaultimg),new Sword(10,"Jeff",3,2,new string[3],defaultimg)};
+		swords = new Sword[3] {new Sword(8,"Sword",0,3,new string[3],swordpics[0]),new Sword(4,"Axe",0,8,new string[3],swordpics[7]),new Sword(15,"Pike",0,0,new string[3],swordpics[6])};
 		Panel.GetComponent<Image>().enabled = false;
 		hide(Panel);
 
@@ -111,7 +110,7 @@ public class Player : MonoBehaviour {
 		} else if(rand ==1){
 			swords[currentSword].knockback++;
 		}
-		if(swords[currentSword].knockback+swords[currentSword].damage>20){
+		if(swords[currentSword].knockback+swords[currentSword].damage>25){
 			Sprite spr = swords[currentSword].image;
 			for (int i = 0; i < swordpics.Length; i++)
 			{
@@ -119,7 +118,7 @@ public class Player : MonoBehaviour {
 					swords[currentSword].image = swordpicsL[i];
 				}
 			}
-			
+			swords[currentSword].affixes[0] = "Legendary";
 		}
 	}
 

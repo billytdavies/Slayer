@@ -9,10 +9,11 @@ public class MapScript : MonoBehaviour {
 	public GameObject[] Rooms;
 	public Sprite basicsword;
 	public GameObject sacrafice;
-
+	Altar[] Altars;
+	GameObject activeAltar;
 	void Start(){
 		basic = new Sword(5, "Sword", 0, 0, new string[3], basicsword);
-
+		
 		int[] usedNums = new int[Rooms.Length];
 		Instantiate(Rooms[0],transform.position,Quaternion.identity);
 		for (int i = 1; i < Rooms.Length; i++){
@@ -27,7 +28,10 @@ public class MapScript : MonoBehaviour {
 			room.transform.parent = transform;
 			usedNums[i] = rand;
 		}
+		Altars = GetComponentsInChildren<Altar>();
 	}
+
+
 	public void one(){
 		Player.GetComponent<Player>().hp += Player.GetComponent<Player>().swords[0].kills;
 		Player.GetComponent<Player>().Score += Player.GetComponent<Player>().swords[0].kills;
@@ -65,6 +69,17 @@ public class MapScript : MonoBehaviour {
 		
 	}
 
+	/*
+	GameObject Findaltar(){
+		activeAltar = Altars[0].gameObject;
+		foreach (Altar alt in Altars){
+			if(Vector3.Distance(Player.transform.position,activeAltar.transform.position)<Vector3.Distance(Player.transform.position,alt.gameObject.transform.position)){
+				activeAltar = alt.gameObject;
+			}
+		}
+		return activeAltar
+	}
+	*/
 	void hide(){
 	foreach (Image panel in sacrafice.GetComponentsInChildren<Image>())
         {

@@ -16,17 +16,18 @@ public class Enemy : MonoBehaviour {
 		gameObject.tag = "Enemy";
 	}
 	IEnumerator Launch(){
-		yield return new WaitForSeconds(Random.Range(0,2));
+		yield return new WaitForSeconds(Random.Range(1,2));
 		Vector3 dir = (Player.transform.position-gameObject.transform.position).normalized;
 		rb.AddForce(dir*25);
 		StartCoroutine(Launch());
 	}
 	void OnTriggerEnter2D(Collider2D Other){
 		if(Other.transform.tag == "Sword"){
-			rb.AddForce((gameObject.transform.position-Player.transform.position).normalized*(20* Player.GetComponent<Player>().swords[Player.GetComponent<Player>().currentSword].knockback));
+			rb.AddForce((gameObject.transform.position-Player.transform.position).normalized*(8* Player.GetComponent<Player>().swords[Player.GetComponent<Player>().currentSword].knockback));
 			health -= Player.GetComponent<Player>().swords[Player.GetComponent<Player>().currentSword].damage;
 		}
 		if(health<=0){
+			Player.GetComponent<Player>().UpgradeSword();
 			Player.GetComponent<Player>().swords[Player.GetComponent<Player>().currentSword].kills +=1;
 			var ptks = Instantiate(Particles,new Vector3(transform.position.x,transform.position.y,transform.position.z+8),Quaternion.identity);
 			Destroy(ptks,4);

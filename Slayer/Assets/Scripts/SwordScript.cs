@@ -14,6 +14,7 @@ public class SwordScript : MonoBehaviour {
 
 	void Update(){
 		sword = new Sword(damage,type,kills,knockback,affixes,image);
+		gameObject.GetComponent<SpriteRenderer>().sprite = image;
 	}
 }
 public class Sword {
