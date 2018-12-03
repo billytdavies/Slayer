@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 114073268898370566}
   m_Layer: 0
   m_Name: Altar
-  m_TagString: Untagged
+  m_TagString: Altar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -235,7 +235,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e559be43bc833e419d6ec5638282cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicsword: {fileID: 21300000, guid: 966d75c502ef48f438d10919e8167371, type: 3}
 --- !u!114 &114461419023248382
 MonoBehaviour:
   m_ObjectHideFlags: 1

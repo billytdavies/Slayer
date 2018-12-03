@@ -29,22 +29,40 @@ public class MapScript : MonoBehaviour {
 		}
 	}
 	public void one(){
+		Player.GetComponent<Player>().hp += Player.GetComponent<Player>().swords[0].kills;
+		Player.GetComponent<Player>().Score += Player.GetComponent<Player>().swords[0].kills;
 		Player.GetComponent<Player>().swords[0] = basic;
 		Time.timeScale = 1;
 		hide();
-		Destroy(transform.GetComponentInChildren<Altar>().gameObject.transform.parent.GetChild(1));
+
+		if(transform.GetComponentInChildren<Altar>().gameObject.transform.parent.GetChild(1).GetChild(0).tag!="Altar"){
+			Destroy(transform.GetComponentInChildren<Altar>().gameObject.transform.parent.GetChild(1).gameObject);
+		}
+		
 	}
 	public void two(){
+		Player.GetComponent<Player>().hp += Player.GetComponent<Player>().swords[1].kills;
+		Player.GetComponent<Player>().Score += Player.GetComponent<Player>().swords[1].kills;
 		Player.GetComponent<Player>().swords[1] = basic;
 		Time.timeScale = 1;
 		hide();
-		Destroy(transform.GetComponentInChildren<Altar>().gameObject.transform.parent.GetChild(1));
+
+		if(transform.GetComponentInChildren<Altar>().gameObject.transform.parent.GetChild(1).GetChild(0).tag!="Altar"){
+			Destroy(transform.GetComponentInChildren<Altar>().gameObject.transform.parent.GetChild(1).gameObject);
+		}
+		
 	}
 	public void three(){
+		Player.GetComponent<Player>().hp += Player.GetComponent<Player>().swords[2].kills*3;
+		Player.GetComponent<Player>().Score += Player.GetComponent<Player>().swords[2].kills;
 		Player.GetComponent<Player>().swords[2] = basic;
 		Time.timeScale = 1;
 		hide();
-		Destroy(transform.GetComponentInChildren<Altar>().gameObject.transform.parent.GetChild(1));
+		if(transform.GetComponentInChildren<Altar>().gameObject.transform.parent.GetChild(1).GetChild(0).tag!="Altar"){
+			Destroy(transform.GetComponentInChildren<Altar>().gameObject.transform.parent.GetChild(1).gameObject);
+		}
+
+		
 	}
 
 	void hide(){

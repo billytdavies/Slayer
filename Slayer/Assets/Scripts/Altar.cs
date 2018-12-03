@@ -16,12 +16,13 @@ public class Altar : MonoBehaviour {
         sacrafice = canvas.transform.GetChild(5).gameObject;
         Player = GameObject.FindGameObjectWithTag("Player");
 
-        sacrafice.GetComponent<Image>().enabled = false;
         hide();
     }
 
-    private void hide()
+    public void hide()
     {
+		sacrafice.GetComponent<Image>().enabled = false;
+		Time.timeScale = 1;
         foreach (Image panel in sacrafice.GetComponentsInChildren<Image>())
         {
             panel.enabled = false;
@@ -35,7 +36,11 @@ public class Altar : MonoBehaviour {
             panel.enabled = false;
         }
     }
-
+	void Update(){
+		if(Input.GetKeyDown(KeyCode.Escape)){
+			hide();
+		}
+	}
     void OnCollisionEnter2D (Collision2D Other) {
 		if(Other.transform.tag=="Player"){
 			Time.timeScale = 0;

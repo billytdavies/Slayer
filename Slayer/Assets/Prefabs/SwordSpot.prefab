@@ -53,7 +53,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sword: {fileID: 1961700858372550, guid: 9aa274731e86ced4195e371c55625a28, type: 2}
   pics:
-  - {fileID: 21300000, guid: 966d75c502ef48f438d10919e8167371, type: 3}
-  - {fileID: 21300000, guid: e621da206afcf2a4687c922cc9b7110a, type: 3}
-  - {fileID: 21300000, guid: 36439668a48182f4099aa308b8cdee23, type: 3}
-  - {fileID: 21300000, guid: 12b2a52dc77cf00429c963094aba20e5, type: 3}
+  - {fileID: 21300000, guid: 20b4d9cea0b655d46b0ff5921ba1c106, type: 3}
+  - {fileID: 21300000, guid: 15546bbebb6877147883929a2770f8f0, type: 3}
+  - {fileID: 21300000, guid: 1466ee0d5b6227e45b0280024a7cf4ae, type: 3}
+  - {fileID: 21300000, guid: e4877e2d23e312040b665bfc824dd9d8, type: 3}
+  - {fileID: 21300000, guid: 09dae0c8cf8e3704db2445d866bc8857, type: 3}
+  - {fileID: 21300000, guid: 418740461bc68624cb7de3e1f2b52ffb, type: 3}
+  - {fileID: 21300000, guid: 0f72a86b62fa7de439374eba97ebf049, type: 3}
+  - {fileID: 21300000, guid: 5306c00ce83f98e4b84c00f88b13f33f, type: 3}
+  - {fileID: 21300000, guid: 2387263eca6950648bfd7c743d1e2cbc, type: 3}

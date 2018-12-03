@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour {
-	int hp;
+	public int hp;
 	public int Score;
 	public GameObject deathMessage;
 	public GameObject hpobject;
@@ -17,13 +17,24 @@ public class Player : MonoBehaviour {
 	GameObject newSwordObject;
 	public int currentSword;
 	public GameObject Panel;
+	//Body,HeadArmWalking
+	public Sprite[] bodyparts;
+	//Body,HeadArmWalking
+	public Sprite[] bodypartsL;
+	int walkcounter;
+
+	public Sprite[] swordpics;
+	public Sprite[] swordpicsL;
+
+
+
 	// Use this for initialization
 	void Start () {
 		hide(deathMessage);
 		hp=100;
 		currentSword = 0;
 		rb = gameObject.GetComponent<Rigidbody2D>();
-		swords = new Sword[3] {new Sword(10,"Jeff",3,2,new string[3]{"+1","+3","+6"},defaultimg),new Sword(10,"Jeff",3,2,new string[3],defaultimg),new Sword(10,"Jeff",3,2,new string[3],defaultimg)};
+		swords = new Sword[3] {new Sword(1000,"Jeff",3,2,new string[3]{"+1","+3","+6"},defaultimg),new Sword(10,"Jeff",3,2,new string[3],defaultimg),new Sword(10,"Jeff",3,2,new string[3],defaultimg)};
 		Panel.GetComponent<Image>().enabled = false;
 		hide(Panel);
 
@@ -34,8 +45,8 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Move();
 		Attack();
+		Move();
 		UpdateGUI();
 	}
 	void UpdateGUI(){
@@ -63,15 +74,26 @@ public class Player : MonoBehaviour {
 	}
 
 	void Attack(){
+			
+			if(Camera.main.ScreenToWorldPoint(Input.mousePosition).x<transform.position.x){
+				transform.GetChild(2).GetComponent<SpriteRenderer>().sprite=bodypartsL[1];
+				transform.GetChild(1).localPosition = new Vector3(-0.28f,0.15f,0);
+			} else {
+				transform.GetChild(2).GetComponent<SpriteRenderer>().sprite=bodyparts[1];
+				transform.GetChild(1).localPosition = new Vector3(0.28f,0.15f,0);
+			}
+				transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite = swords[currentSword].image;
+
 			Vector3 mousePos = Input.mousePosition;
 			mousePos.z = 5.23f;
 
 			Vector3 objectPos = Camera.main.WorldToScreenPoint (transform.GetChild(1).position);
+		
 			mousePos.x = mousePos.x - objectPos.x;
 			mousePos.y = mousePos.y - objectPos.y;
 
 			float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-			transform.GetChild(1).rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+			transform.GetChild(1).transform.GetChild(0).rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
 		if(Input.GetKeyDown(KeyCode.Mouse1)){
 			currentSword++;
@@ -80,12 +102,84 @@ public class Player : MonoBehaviour {
 			}
 		}
 	}
+
+
+	public void UpgradeSword(){
+		int rand = Random.Range(0,2);
+		if(rand==0){
+			swords[currentSword].damage++;
+		} else if(rand ==1){
+			swords[currentSword].knockback++;
+		}
+		if(swords[currentSword].knockback+swords[currentSword].damage>20){
+			Sprite spr = swords[currentSword].image;
+			for (int i = 0; i < swordpics.Length; i++)
+			{
+				if(spr == swordpics[i]){
+					swords[currentSword].image = swordpicsL[i];
+				}
+			}
+			
+		}
+	}
+
+
+
+
+
+
 	void Move(){
+
+		if(rb.velocity.magnitude < 1){
+			rb.velocity = new Vector3(0,0,0);
+		}
+
+
+
+		int facing;
+		if(Camera.main.ScreenToWorldPoint(Input.mousePosition).x<transform.position.x){
+				facing = -1;
+			}else{
+				facing = 1;
+		}
+
+		if(rb.velocity.magnitude>0){
+			walkcounter++;
+		} else {
+			walkcounter=0;
+			if(facing == -1){
+				gameObject.GetComponent<SpriteRenderer>().sprite = bodypartsL[0];
+			}else{
+				gameObject.GetComponent<SpriteRenderer>().sprite = bodyparts[0];
+			}
+		}
+		 
 		
+		
+		if(walkcounter==5){
+			if(facing== 1){
+				gameObject.GetComponent<SpriteRenderer>().sprite = bodyparts[3];
+
+			} else {
+				gameObject.GetComponent<SpriteRenderer>().sprite = bodypartsL[2];
+			}
+		}	
+		if(walkcounter==10){
+			if (facing == 1) {
+				gameObject.GetComponent<SpriteRenderer>().sprite = bodyparts[0];
+
+			} else {
+				gameObject.GetComponent<SpriteRenderer>().sprite = bodypartsL[0];
+			}
+			walkcounter = 0;
+		}
+	
+
 		float Hor = Input.GetAxisRaw("Horizontal");
 		float Ver = Input.GetAxisRaw("Vertical");
 		
-		rb.AddForce(new Vector2(Hor,Ver));}
+		rb.AddForce(new Vector2(Hor,Ver));
+	}
 	void OnCollisionEnter2D(Collision2D Other){
 		if(Other.transform.tag=="Enemy"){
 			hp-=5;
